@@ -1,12 +1,8 @@
 package ch.sysout.jnotepad;
 
-import java.io.FileOutputStream;
-
 import javax.swing.UIManager;
 
-import com.formdev.flatlaf.FlatLightLaf;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.pdf.PdfWriter;
+import com.formdev.flatlaf.FlatDarkLaf;
 
 public class Main {
 	private static String FILE = "c:/temp/FirstPdf.pdf";
@@ -46,23 +42,23 @@ public class Main {
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 
-		try {
-			Document document = new Document();
-			PdfWriter.getInstance(document, new FileOutputStream(FILE));
-			document.open();
-			FirstPdf.addMetaData(document);
-			FirstPdf.addTitlePage(document);
-			FirstPdf.addContent(document);
-			document.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		//		try {
+		//			Document document = new Document();
+		//			PdfWriter.getInstance(document, new FileOutputStream(FILE));
+		//			document.open();
+		//			FirstPdf.addMetaData(document);
+		//			FirstPdf.addTitlePage(document);
+		//			FirstPdf.addContent(document);
+		//			document.close();
+		//		} catch (Exception e) {
+		//			e.printStackTrace();
+		//		}
 	}
 
 	public static void main(String[] args) {
 		try {
 			//			UIManager.setLookAndFeel(new FlatDarkLaf());
-			UIManager.setLookAndFeel(new FlatLightLaf());
+			UIManager.setLookAndFeel(new FlatDarkLaf());
 		} catch (Exception ex) {
 			System.err.println("Failed to initialize LaF");
 		}

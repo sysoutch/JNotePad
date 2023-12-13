@@ -12,11 +12,13 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -65,6 +67,8 @@ public class MainFrame extends JFrame implements ActionListener {
 	private JTabbedPane tpMain;
 
 	protected int lastSelectedTabIndex;
+
+	private JFileChooser fc;
 
 	public MainFrame() {
 		super("Untitled - JNotePad");
@@ -150,6 +154,7 @@ public class MainFrame extends JFrame implements ActionListener {
 		setFocusTraversalKeysEnabled(false);
 		itmNew.addActionListener(this);
 		itmNewWindow.addActionListener(this);
+		itmOpen.addActionListener(this);
 		itmEmbeddedMenuBar.addActionListener(this);
 		itmLineWrap.addActionListener(this);
 		itmWordWrap.addActionListener(this);
@@ -252,6 +257,8 @@ public class MainFrame extends JFrame implements ActionListener {
 			}
 		} else if (source.equals(itmNewWindow)) {
 			newWindowOrTab();
+		} else if (source.equals(itmOpen)) {
+			openFile();
 		} else if (source.equals(itmLineWrap)) {
 			pnlMain.setLineWrap(itmLineWrap.isSelected());
 			itmWordWrap.setEnabled(itmLineWrap.isSelected());
@@ -263,6 +270,20 @@ public class MainFrame extends JFrame implements ActionListener {
 			dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 		}
 		pnlMain.repaint();
+	}
+
+	private void openFile() {
+		if (fc == null) {
+			fc = new JFileChooser();
+			fc.setFileSelectionMode(JFileChooser.OPEN_DIALOG);
+		}
+		//		fc.setCurrentDirectory("");
+		int request = fc.showOpenDialog(this);
+		if (request == JFileChooser.APPROVE_OPTION) {
+			File fileToLoad = fc.getSelectedFile();
+			pnlMain.clearText();
+			pnlMain.openFile(fileToLoad.toPath());
+		}
 	}
 
 	class PopUpDemo extends JPopupMenu {

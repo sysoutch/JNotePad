@@ -1,6 +1,11 @@
 package ch.sysout.jnotepad;
 
 import java.awt.BorderLayout;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -51,10 +56,28 @@ public class MainPanel extends JPanel {
 	}
 
 	public void createNewDocument() {
-		txtMain.setText("");
+		clearText();
 	}
 
 	public JTextArea getTxtMain() {
 		return txtMain;
+	}
+
+	public void clearText() {
+		txtMain.setText("");
+	}
+
+	public void openFile(Path fileToLoad) {
+		try (BufferedReader br = Files.newBufferedReader(fileToLoad, StandardCharsets.UTF_8)) {
+			String line = "";
+			while ((line = br.readLine()) != null) {
+				if  (!txtMain.getText().isEmpty()) {
+					txtMain.append("\n");
+				}
+				txtMain.append(line);
+			}
+		} catch (IOException ex) {
+			System.out.format("I/O error: %s%n", ex);
+		}
 	}
 }
