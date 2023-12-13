@@ -60,7 +60,7 @@ public class MainPanel extends JPanel {
 	}
 
 	public JTextArea getTxtMain() {
-		return txtMain;
+		return txtMain; // just a test change for a demo commit
 	}
 
 	public void clearText() {
